@@ -1,0 +1,135 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guardhouse-sdk"
+version = "0.1.0b1"
+description = "Python SDK for Guardhouse authentication - supports both M2M client and resource server validation"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.9"
+authors = [
+    {name = "LEGIOSOFT SOLUTIONS S.L."},
+]
+keywords = [
+    "openid",
+    "oauth2",
+    "authentication",
+    "jwt",
+    "guardhouse",
+    "fastapi",
+    "flask",
+    "django",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration :: Authentication/Directory",
+    "Typing :: Typed",
+]
+
+# Core runtime dependencies
+dependencies = [
+    "httpx>=0.27.0,<0.29.0",
+    "pyjwt[crypto]>=2.9.0",
+]
+
+[project.urls]
+Homepage = "https://guardhouse.cloud"
+Documentation = "https://docs.guardhouse.cloud"
+Repository = "https://github.com/legiosoft/guardhouse-sdk-python"
+"Bug Tracker" = "https://github.com/legiosoft/guardhouse-sdk-python/issues"
+
+[project.optional-dependencies]
+# Optional framework integrations
+fastapi = ["fastapi>=0.100.0"]
+flask = ["flask>=3.0.0"]
+
+# Development dependencies
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.24.0",
+    "pytest-cov>=6.0.0",
+    "pytest-mock>=3.14.0",
+    "mypy>=1.11.0",
+    "ruff>=0.7.0",
+    "freezegun>=1.5.0",
+    "responses>=0.25.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+guardhouse = ["py.typed"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-ra -q --strict-markers --strict-config --cov=src/guardhouse --cov-report=term-missing"
+testpaths = ["tests"]
+pythonpath = ["src"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "B",
+    "C4",
+    "UP",
+    "ARG",
+    "SIM",
+    "TCH",
+    "PTH",
+    "PERF",
+    "RUF",
+    "S104",
+    "S110",
+    "S112",
+    "S501",
+]
+ignore = [
+    "E501",
+    "B008",
+    "C901",
+    "W191",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["ARG", "S101"]

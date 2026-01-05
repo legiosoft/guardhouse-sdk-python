@@ -1,0 +1,6 @@
+include README.md
+include LICENSE
+include pyproject.toml
+recursive-include src/guardhouse *.py
+include src/guardhouse/py.typed
+recursive-include tests *.py
