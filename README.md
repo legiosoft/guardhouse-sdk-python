@@ -119,27 +119,26 @@ async def admin_route(user: User = Depends(get_user)):
 ### Flask
 
 ```python
-from flask import Flask
+from flask import Flask, request
 from guardhouse.middleware import FlaskAuthExtension
 
 app = Flask(__name__)
 
 # Initialize extension
 auth = FlaskAuthExtension(
-    app,
+    app=app,
     authority="https://auth.example.com",
     audience="my-api"
 )
 
 @app.route("/protected")
 @auth.requires_auth
-def protected():
-    user = request.view_args.get('user', {})
+def protected(user):
     return {"message": f"Hello, {user['sub']}!"}
 
 @app.route("/admin")
 @auth.requires_auth(required_scope="admin")
-def admin():
+def admin(user):
     return {"message": "Welcome admin!"}
 ```
 
@@ -148,38 +147,35 @@ def admin():
 ### Client Configuration
 
 ```python
-from guardhouse import GuardhouseClient, GuardhouseClientOptions
+from guardhouse import GuardhouseClient
 
-options = GuardhouseClientOptions(
+client = GuardhouseClient(
     authority="https://auth.example.com",
     client_id="my-service",
     client_secret="your-secret",
     scope="api read write",
 
     # Token caching
-    enable_token_caching=True,
-    cache_expiration_buffer_seconds=60,  # Refresh 60s before expiry
+    cache_expiration_buffer=60,  # Refresh 60s before expiry
 
     # Retry logic
-    enable_http_resilience=True,
     max_retry_attempts=3,
-    request_timeout_seconds=30,
+    request_timeout=30,
+    enable_http_resilience=True,
 
     # Introspection (optional)
     introspection_client_id="introspection-client",
     introspection_client_secret="introspection-secret",
     introspection_credential_transmission="basic_auth",
 )
-
-client = GuardhouseClient(**options.model_dump())
 ```
 
 ### Verifier Configuration
 
 ```python
-from guardhouse import TokenVerifier, GuardhouseResourceOptions
+from guardhouse import TokenVerifier
 
-options = GuardhouseResourceOptions(
+verifier = TokenVerifier(
     authority="https://auth.example.com",
     audience="my-api",
 
@@ -201,8 +197,6 @@ options = GuardhouseResourceOptions(
     valid_algorithms=["RS256"],
     clock_skew_minutes=5.0,
 )
-
-verifier = TokenVerifier(**options.model_dump())
 ```
 
 ## Security Features
@@ -263,29 +257,29 @@ except GuardhouseNetworkError as e:
 
 ```bash
 # Install with development dependencies
-poetry install
+pip install -e ".[dev]"
 
 # Run tests
-poetry run pytest
+pytest
 
 # Run type checking
-poetry run mypy --strict src/
+mypy --strict src/
 
 # Run linting
-poetry run ruff check src/
+ruff check src/
 ```
 
 ### Running Tests
 
 ```bash
 # Run all tests
-poetry run pytest
+pytest
 
 # Run with coverage
-poetry run pytest --cov=src/guardhouse --cov-report=html
+pytest --cov=src/guardhouse --cov-report=html
 
 # Run specific test file
-poetry run pytest tests/test_verifier.py
+pytest tests/test_verifier.py
 ```
 
 ## Project Structure
@@ -312,7 +306,7 @@ guardhouse-sdk-python/
 
 ## License
 
-MIT License - see LICENSE file for details.
+Apache-2.0 License - see LICENSE file for details.
 
 ## Contributing
 
@@ -321,5 +315,5 @@ Contributions are welcome! Please read our contributing guidelines before submit
 ## Support
 
 For issues and questions:
-- GitHub Issues: https://github.com/guardhouse-ai/guardhouse-sdk-python/issues
-- Documentation: https://github.com/guardhouse-ai/guardhouse-sdk-python
+- GitHub Issues: https://github.com/legiosoft/guardhouse-sdk-python/issues
+- Documentation: https://docs.guardhouse.cloud
