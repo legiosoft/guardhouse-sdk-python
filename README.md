@@ -1,6 +1,12 @@
 # Guardhouse Python SDK
 
+[![PyPI version](https://badge.fury.io/py/guardhouse.svg)](https://badge.fury.io/py/guardhouse/)
+[![Python](https://img.shields.io/pypi/pyversions/guardhouse.svg)](https://pypi.org/project/guardhouse/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+
 Python SDK for Guardhouse authentication, supporting both **Machine-to-Machine (M2M)** client and **resource server** token validation.
+
+> **Beta Release**: This is the first beta release (v0.1.0b1). The API is stable but may undergo minor changes before the final v1.0.0 release. Feedback welcome!
 
 ## Features
 
@@ -15,7 +21,7 @@ Python SDK for Guardhouse authentication, supporting both **Machine-to-Machine (
 ## Installation
 
 ```bash
-pip install guardhouse-sdk
+pip install guardhouse
 ```
 
 ### Optional Dependencies
@@ -24,10 +30,10 @@ For framework integrations:
 
 ```bash
 # FastAPI
-pip install guardhouse-sdk[fastapi]
+pip install guardhouse[fastapi]
 
 # Flask
-pip install guardhouse-sdk[flask]
+pip install guardhouse[flask]
 ```
 
 ## Quick Start

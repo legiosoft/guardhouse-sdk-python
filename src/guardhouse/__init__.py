@@ -93,7 +93,7 @@ from guardhouse.exceptions import (
 )
 from guardhouse.verifier import TokenVerifier
 
-__version__ = "0.1.0"
+__version__ = "0.1.0b1"
 __all__ = [
     "GuardhouseClient",
     "TokenVerifier",
