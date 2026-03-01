@@ -322,4 +322,4 @@ Contributions are welcome! Please read our contributing guidelines before submit
 
 For issues and questions:
 - GitHub Issues: https://github.com/legiosoft/guardhouse-sdk-python/issues
-- Documentation: https://docs.guardhouse.cloud
+- Documentation: https://guardhouse.cloud/docs
